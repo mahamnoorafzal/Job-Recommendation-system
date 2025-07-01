@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Job Seeker Profile</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('profile') }}" class="needs-validation" novalidate>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="first_name" class="form-label">First Name*</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ profile.first_name if profile else '' }}" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="last_name" class="form-label">Last Name*</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ profile.last_name if profile else '' }}" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="job_title" class="form-label">Current/Desired Job Title*</label>
+            <input type="text" class="form-control" id="job_title" name="job_title" value="{{ profile.job_title if profile else '' }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" class="form-control" id="location" name="location" value="{{ profile.location if profile else '' }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="skills" class="form-label">Skills* (comma-separated)</label>
+            <input type="text" class="form-control" id="skills" name="skills" value="{{ ','.join(profile.skills) if profile and profile.skills else '' }}" required>
+            <div class="form-text">Enter your skills separated by commas (e.g., Python, Java, Project Management)</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="experience_years" class="form-label">Years of Experience*</label>
+                <input type="number" class="form-control" id="experience_years" name="experience_years" value="{{ profile.experience_years if profile else 0 }}" min="0" step="0.5" required>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="education_level" class="form-label">Education Level*</label>
+                <select class="form-select" id="education_level" name="education_level" required>
+                    <option value="">Select Education Level</option>
+                    <option value="High School" {% if profile and profile.education_level == 'High School' %}selected{% endif %}>High School</option>
+                    <option value="Associate's Degree" {% if profile and profile.education_level == "Associate's Degree" %}selected{% endif %}>Associate's Degree</option>
+                    <option value="Bachelor's Degree" {% if profile and profile.education_level == "Bachelor's Degree" %}selected{% endif %}>Bachelor's Degree</option>
+                    <option value="Master's Degree" {% if profile and profile.education_level == "Master's Degree" %}selected{% endif %}>Master's Degree</option>
+                    <option value="Doctorate" {% if profile and profile.education_level == 'Doctorate' %}selected{% endif %}>Doctorate</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="industry_preferences" class="form-label">Industry Preferences (comma-separated)</label>
+            <input type="text" class="form-control" id="industry_preferences" name="industry_preferences" value="{{ ','.join(profile.industry_preferences) if profile and profile.industry_preferences else '' }}">
+            <div class="form-text">Enter your preferred industries separated by commas (e.g., Technology, Healthcare, Finance)</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="certifications" class="form-label">Certifications (comma-separated)</label>
+            <input type="text" class="form-control" id="certifications" name="certifications" value="{{ ','.join(profile.certifications) if profile and profile.certifications else '' }}">
+            <div class="form-text">Enter your certifications separated by commas (e.g., AWS Certified, PMP, CISSP)</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Profile</button>
+    </form>
+</div>
+
+<script>
+// Form validation
+(function () {
+    'use strict'
+    var forms = document.querySelectorAll('.needs-validation')
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+                form.classList.add('was-validated')
+            }, false)
+        })
+})()
+
+// Convert comma-separated inputs to tag-like inputs
+function initializeTagInput(inputId) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+
+    const tags = input.value.split(',').filter(tag => tag.trim() !== '').map(tag => tag.trim());
+    input.value = tags.join(', ');
+
+    input.addEventListener('blur', function() {
+        const tags = this.value.split(',').filter(tag => tag.trim() !== '').map(tag => tag.trim());
+        this.value = tags.join(', ');
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    initializeTagInput('skills');
+    initializeTagInput('industry_preferences');
+    initializeTagInput('certifications');
+});
+</script>
+{% endblock %}

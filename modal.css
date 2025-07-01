@@ -1,0 +1,200 @@
+/* Modal Core Styles */
+.modal {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    outline: 0 !important;
+    z-index: 1050 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    background: transparent !important;
+}
+
+.modal.show {
+    display: block !important;
+    pointer-events: auto !important;
+}
+
+.modal-dialog {
+    position: relative !important;
+    width: auto !important;
+    margin: 1.75rem auto !important;
+    max-width: 500px !important;
+    pointer-events: auto !important;
+    z-index: 1051 !important;
+}
+
+.modal-content {
+    position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    background-color: #fff !important;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+    border-radius: 0.3rem !important;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    outline: 0 !important;
+    z-index: 1052 !important;
+    pointer-events: auto !important;
+}
+
+.modal-backdrop {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: 1040 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: #000 !important;
+}
+
+.modal-backdrop.show {
+    opacity: 0.5 !important;
+}
+
+/* Modal sections */
+.modal-header {
+    display: flex !important;
+    flex-shrink: 0 !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 1rem !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    border-top-left-radius: calc(0.3rem - 1px) !important;
+    border-top-right-radius: calc(0.3rem - 1px) !important;
+    pointer-events: auto !important;
+}
+
+.modal-body {
+    position: relative !important;
+    flex: 1 1 auto !important;
+    padding: 1rem !important;
+    pointer-events: auto !important;
+}
+
+.modal-footer {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    flex-shrink: 0 !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    padding: 0.75rem !important;
+    border-top: 1px solid #dee2e6 !important;
+    border-bottom-right-radius: calc(0.3rem - 1px) !important;
+    border-bottom-left-radius: calc(0.3rem - 1px) !important;
+    pointer-events: auto !important;
+}
+
+/* Form controls within modal */
+.modal-body input,
+.modal-body textarea,
+.modal-body select,
+.modal-body button,
+.modal-footer button {
+    position: relative !important;
+    z-index: 1053 !important;
+    pointer-events: auto !important;
+}
+
+.modal textarea.form-control {
+    min-height: 200px !important;
+    resize: vertical !important;
+    background-color: #fff !important;
+    pointer-events: auto !important;
+}
+
+/* Loading overlay */
+.loading-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background-color: rgba(255, 255, 255, 0.7) !important;
+    z-index: 1060 !important;
+    display: none;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.loading-overlay.active {
+    display: flex !important;
+}
+
+.loading-spinner {
+    margin-bottom: 1rem;
+}
+
+/* Clean up any unwanted transitions or transforms */
+.modal,
+.modal-dialog,
+.modal-content,
+.modal-backdrop {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+}
+
+/* Form Validation Styles */
+.form-control.is-valid {
+    border-color: #198754 !important;
+    padding-right: calc(1.5em + 0.75rem) !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right calc(0.375em + 0.1875rem) center !important;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem) !important;
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545 !important;
+    padding-right: calc(1.5em + 0.75rem) !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat !important;
+    background-position: right calc(0.375em + 0.1875rem) center !important;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem) !important;
+}
+
+/* Validation Message Styles */
+#validationMessage {
+    transition: all 0.3s ease;
+}
+
+#validationMessage.text-success {
+    color: #198754 !important;
+}
+
+#validationMessage.text-danger {
+    color: #dc3545 !important;
+}
+
+/* Submission Status Styles */
+#submissionStatus {
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+#submissionStatus.alert-success {
+    background-color: #d1e7dd !important;
+    border-color: #badbcc !important;
+    color: #0f5132 !important;
+}
+
+#submissionStatus.alert-danger {
+    background-color: #f8d7da !important;
+    border-color: #f5c2c7 !important;
+    color: #842029 !important;
+}
+
+/* Button Loading State */
+.btn .spinner-border {
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}

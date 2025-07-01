@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Job Prediction System{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4">Find Your Perfect Job Match</h1>
+                <p class="lead">Using AI to predict your success and match you with the right opportunities.</p>
+                {% if not current_user.is_authenticated %}
+                <div class="mt-4">
+                    <a href="{{ url_for('register') }}" class="btn btn-light btn-lg me-3">Get Started</a>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg">Login</a>
+                </div>
+                {% else %}
+                <div class="mt-4">
+                    <a href="{{ url_for('jobs') }}" class="btn btn-light btn-lg">Browse Jobs</a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <img src="{{ url_for('static', filename='img/hero-image.svg') }}" 
+                     alt="Job Search Illustration" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Why Choose Our Platform?</h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">AI-Powered Predictions</h5>
+                    <p class="card-text">Our machine learning algorithms analyze your profile and provide accurate success predictions for each job application.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Smart Matching</h5>
+                    <p class="card-text">Get matched with jobs that align with your skills, experience, and career goals.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Trusted Reviews</h5>
+                    <p class="card-text">Make informed decisions with our sentiment analysis of company reviews and ratings.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Jobs Section -->
+<div class="bg-light py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Featured Jobs</h2>
+        <div class="row">
+            {% for job in featured_jobs %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ job.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ job.company_name }}</h6>
+                        <p class="card-text">{{ job.description[:150] }}...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary">${{ "%.2f"|format(job.salary) }}</span>                            <a href="{{ url_for('job_details', job_id=job._id) }}" 
+                               class="btn btn-outline-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{{ url_for('jobs') }}" class="btn btn-primary">View All Jobs</a>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Section -->
+<div class="container my-5">
+    <h2 class="text-center mb-4">Platform Statistics</h2>
+    <div class="row text-center">
+        <div class="col-md-3 mb-4">
+            <h3 class="display-4">{{ stats.total_jobs }}</h3>
+            <p class="text-muted">Active Jobs</p>
+        </div>
+        <div class="col-md-3 mb-4">
+            <h3 class="display-4">{{ stats.total_companies }}</h3>
+            <p class="text-muted">Companies</p>
+        </div>
+        <div class="col-md-3 mb-4">
+            <h3 class="display-4">{{ stats.total_applicants }}</h3>
+            <p class="text-muted">Job Seekers</p>
+        </div>
+        <div class="col-md-3 mb-4">
+            <h3 class="display-4">{{ stats.success_rate }}%</h3>
+            <p class="text-muted">Success Rate</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+.card {
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+</style>
+{% endblock %}

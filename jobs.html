@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Job Listings - Job Prediction System{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Browse Jobs</h2>
+    
+    <!-- Filter Form -->
+    <form method="GET" action="{{ url_for('jobs') }}" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="search" placeholder="Search by title or company" value="{{ request.args.get('search', '') }}">
+            </div>
+            <div class="col-md-2">
+                <input type="number" class="form-control" name="min_salary" placeholder="Min Salary" value="{{ request.args.get('min_salary', '') }}">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" name="location" placeholder="Location" value="{{ request.args.get('location', '') }}">
+            </div>
+            <div class="col-md-3">
+                <select class="form-control" name="sort_by">
+                    <option value="">Sort By</option>
+                    <option value="date" {% if request.args.get('sort_by') == 'date' %}selected{% endif %}>Date Posted</option>
+                    <option value="salary" {% if request.args.get('sort_by') == 'salary' %}selected{% endif %}>Salary</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Jobs List -->
+    {% if jobs %}
+    <div class="row">
+        {% for job in jobs %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ job.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ job.company_name }}</h6>                    <p class="card-text">
+                        <strong>Salary:</strong> ${{ "{:,.0f}".format(job.salary) }}<br>
+                        <strong>Location:</strong> {{ job.location }}<br>
+                        <strong>Posted:</strong> {{ job.formatted_date }}
+                    </p>
+                    {% if job._id %}
+                    <a href="{{ url_for('job_details', job_id=job._id) }}" class="btn btn-primary">View Details</a>
+                    {% else %}
+                    <span class="text-danger">Error: No job ID available</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info">No jobs found matching your criteria.</div>
+    {% endif %}
+
+    <!-- Pagination -->
+    {% if pagination %}
+    <div class="d-flex justify-content-center">
+        {{ pagination.links | safe }}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

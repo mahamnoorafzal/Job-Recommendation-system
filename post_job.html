@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Post a New Job{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Post a New Job</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('post_job') }}">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Job Title</label>
+                            <input type="text" class="form-control" id="title" name="title" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Job Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="required_skills" class="form-label">Required Skills</label>
+                            <input type="text" class="form-control" id="required_skills" name="required_skills" 
+                                   placeholder="Enter skills separated by commas" required>
+                            <small class="form-text text-muted">Enter skills separated by commas (e.g., Python, SQL, JavaScript)</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="experience_level" class="form-label">Required Experience Level (years)</label>
+                            <input type="number" class="form-control" id="experience_level" name="experience_level" 
+                                   min="0" max="20" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="education" class="form-label">Minimum Education Required</label>
+                            <select class="form-control" id="education" name="education" required>
+                                <option value="">Select Education Level</option>
+                                <option value="high_school">High School</option>
+                                <option value="associates">Associate's Degree</option>
+                                <option value="bachelors">Bachelor's Degree</option>
+                                <option value="masters">Master's Degree</option>
+                                <option value="phd">Ph.D.</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="industry" class="form-label">Industry Type</label>
+                            <select class="form-control" id="industry" name="industry" required>
+                                <option value="">Select Industry</option>
+                                <option value="technology">Technology</option>
+                                <option value="healthcare">Healthcare</option>
+                                <option value="finance">Finance</option>
+                                <option value="education">Education</option>
+                                <option value="manufacturing">Manufacturing</option>
+                                <option value="retail">Retail</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="salary" class="form-label">Salary</label>
+                            <input type="number" class="form-control" id="salary" name="salary" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="location" name="location" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Post Job</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

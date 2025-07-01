@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - {{ current_user.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2>Welcome, {{ current_user.name }}!</h2>
+        </div>
+    </div>
+
+    {% if current_user.user_type == 'job_seeker' %}
+    <!-- Job Seeker Dashboard -->
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Recent Job Applications</h4>
+                </div>
+                <div class="card-body">
+                    {% if applications %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Job Title</th>
+                                    <th>Company</th>
+                                    <th>Applied Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for app in applications %}
+                                <tr>
+                                    <td>                                        <a href="{{ url_for('job_details', job_id=app._id) }}">
+                                            {{ app.title }}
+                                        </a>
+                                    </td>
+                                    <td>{{ app.company_name }}</td>
+                                    <td>{{ app.formatted_date }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if app.status == 'accepted' 
+                                            else 'warning' if app.status == 'pending' 
+                                            else 'danger' }}">
+                                            {{ app.status|title }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p>No applications yet. Start your job search!</p>
+                    <a href="{{ url_for('jobs') }}" class="btn btn-primary">Browse Jobs</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Your Profile Stats</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Applications Sent
+                            <span class="badge bg-primary rounded-pill">{{ stats.total_applications }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Accepted Applications
+                            <span class="badge bg-success rounded-pill">{{ stats.accepted_applications }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Average Rating
+                            <span class="badge bg-info">{{ "%.1f"|format(stats.avg_rating|default(0)) }}/5.0</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h4>Recommended Actions</h4>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="{{ url_for('profile') }}" class="list-group-item list-group-item-action">
+                            Update Your Profile
+                        </a>
+                        <a href="{{ url_for('jobs') }}" class="list-group-item list-group-item-action">
+                            Browse New Jobs
+                        </a>
+                        <a href="{{ url_for('my_applications') }}" class="list-group-item list-group-item-action">
+                            View All Applications
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <!-- Employer Dashboard -->
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4>Your Job Postings</h4>
+                    <a href="{{ url_for('post_job') }}" class="btn btn-primary">Post New Job</a>
+                </div>
+                <div class="card-body">
+                    {% if posted_jobs %}
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Posted Date</th>
+                                    <th>Applications</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for job in posted_jobs %}
+                                <tr>
+                                    <td>                                        <a href="{{ url_for('job_details', job_id=job._id) }}">
+                                            {{ job.title }}
+                                        </a>
+                                    </td>
+                                    <td>{{ job.date_posted }}</td>
+                                    <td>{{ job.application_count }}</td>
+                                    <td>
+                                        <span class="badge bg-{{ 'success' if job.status == 'open' 
+                                            else 'secondary' }}">
+                                            {{ job.status|title }}
+                                        </span>
+                                    </td>
+                                    <td>                                        <a href="{{ url_for('manage_applications_job', job_id=job._id) }}" 
+                                           class="btn btn-sm btn-outline-primary">
+                                            Manage Applications
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <p>No jobs posted yet.</p>
+                    <a href="{{ url_for('post_job') }}" class="btn btn-primary">Post Your First Job</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Company Stats</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Active Jobs
+                            <span class="badge bg-primary rounded-pill">{{ stats.active_jobs }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Total Applications
+                            <span class="badge bg-info rounded-pill">{{ stats.total_applications }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Company Rating
+                            <span class="badge bg-warning">{{ "%.1f"|format(stats.company_rating|default(0)) }}/5.0</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h4>Quick Actions</h4>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="{{ url_for('post_job') }}" class="list-group-item list-group-item-action">
+                            Post New Job
+                        </a>
+                        <a href="{{ url_for('profile') }}" class="list-group-item list-group-item-action">
+                            Update Company Profile
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            View Company Reviews
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

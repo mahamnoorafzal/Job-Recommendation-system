@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Job Portal{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Create Account</h4>
+                </div>
+                <div class="card-body">                    <form method="POST" action="{{ url_for('register') }}" enctype="multipart/form-data">
+                        <!-- Basic Information -->
+                        <div class="mb-3">
+                            <label for="first_name" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="last_name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Account Type</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="user_type" id="job_seeker" value="job_seeker" checked onclick="toggleJobSeekerFields(true)">
+                                <label class="form-check-label" for="job_seeker">
+                                    Job Seeker
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="user_type" id="employer" value="employer" onclick="toggleJobSeekerFields(false)">
+                                <label class="form-check-label" for="employer">
+                                    Employer
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Job Seeker Specific Fields -->
+                        <div id="jobSeekerFields">
+                            <div class="mb-3">
+                                <label for="skills" class="form-label">Skills (comma separated)</label>
+                                <input type="text" class="form-control" id="skills" name="skills" 
+                                       placeholder="e.g., Python, JavaScript, Data Analysis">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="experience_years" class="form-label">Years of Experience</label>
+                                <input type="number" class="form-control" id="experience_years" 
+                                       name="experience_years" min="0" step="0.5">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="education_level" class="form-label">Education Level</label>
+                                <select class="form-control" id="education_level" name="education_level">
+                                    <option value="high_school">High School</option>
+                                    <option value="associate">Associate Degree</option>
+                                    <option value="bachelor">Bachelor's Degree</option>
+                                    <option value="master">Master's Degree</option>
+                                    <option value="phd">PhD</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="cv" class="form-label">Upload CV (PDF only)</label>
+                                <input type="file" class="form-control" id="cv" name="cv" 
+                                       accept=".pdf">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Create Account</button>
+                    </form>
+                    <hr class="my-4">
+                    <div class="text-center">
+                        <p class="mb-0">Already have an account? <a href="{{ url_for('login') }}">Login here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleJobSeekerFields(show) {
+    var jobSeekerFields = document.getElementById('jobSeekerFields');
+    var fields = jobSeekerFields.getElementsByTagName('input');
+    var selects = jobSeekerFields.getElementsByTagName('select');
+    
+    if (show) {
+        jobSeekerFields.style.display = 'block';
+        for (var i = 0; i < fields.length; i++) {
+            fields[i].required = true;
+        }
+        for (var i = 0; i < selects.length; i++) {
+            selects[i].required = true;
+        }
+    } else {
+        jobSeekerFields.style.display = 'none';
+        for (var i = 0; i < fields.length; i++) {
+            fields[i].required = false;
+        }
+        for (var i = 0; i < selects.length; i++) {
+            selects[i].required = false;
+        }
+    }
+}
+
+// Initialize form on page load
+document.addEventListener('DOMContentLoaded', function() {
+    toggleJobSeekerFields(document.getElementById('job_seeker').checked);
+});
+</script>
+{% endblock %}
