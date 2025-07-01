@@ -1,17 +1,17 @@
-# 💼 Job Prediction & Recommendation Portal
+# Job Prediction & Recommendation Portal
 
 An end-to-end job portal web application built for **both job seekers and companies**, with an integrated **Machine Learning model** to score job applications based on relevance. This project combines **Flask**, **MongoDB**, and **scikit-learn** into a fully functional, intelligent recruitment system.
 
 ---
 
-## 🚀 Features
+## Features
 
-### 🔹 For Companies
+###  For Companies
 - Post new job listings
 - View applications with a generated **match score**
 - **Accept or reject** applicants based on their score
 
-### 🔹 For Job Seekers
+###  For Job Seekers
 - Apply for jobs using:
   - Resume
   - CV
@@ -23,7 +23,7 @@ An end-to-end job portal web application built for **both job seekers and compan
 
 ---
 
-## 🧠 Machine Learning Model
+##  Machine Learning Model
 
 A custom-built model predicts how well a candidate fits a job based on:
 
@@ -35,7 +35,7 @@ A custom-built model predicts how well a candidate fits a job based on:
 - Industry alignment
 - Previous application history
 
-### 🔍 Tech & Tools Used
+###  Tech & Tools Used
 
 | Component        | Usage                                                |
 |------------------|------------------------------------------------------|
@@ -48,7 +48,7 @@ A custom-built model predicts how well a candidate fits a job based on:
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Backend**: Flask (Python)
 - **Frontend**: HTML, CSS, JS
@@ -56,7 +56,4 @@ A custom-built model predicts how well a candidate fits a job based on:
 - **ML/NLP**: scikit-learn, pandas, numpy, nltk
 - **Deployment Ready**: `.env` support, logging, and model persistence via `joblib`
 
----
-
-## 📂 Folder Structure
 
